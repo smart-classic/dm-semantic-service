@@ -1,7 +1,7 @@
 Semantic Services for the SMART Disease Monograph
 -------------------------------------------------
 
-For more information, see [http://smartplatforms.org]
+For more information, see [http://smartplatforms.org](http://smartplatforms.org)
 
 Installation for Ubuntu 12.04
 -----------------------------

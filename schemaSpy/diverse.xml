@@ -1,0 +1,21 @@
+<schemaMeta>
+  <comments></comments>
+  <tables>
+    <table name="tests_problems">
+      <column name="loinc_num">
+	<foreignKey table="loinc" column="loinc_num"/>
+      </column>
+      <column name="snomed_cid">
+	<foreignKey table="snomedct_core_subset_201208" column="snomed_cid"/>
+      </column>
+    </table>
+    <table name="problems_meds">
+      <column name="rxcui">
+	<foreignKey table="rxterms" column="rxcui"/>
+      </column>
+      <column name="cid">
+	<foreignKey table="SNOMEDCT_CORE_SUBSET_201208" column="SNOMED_CID"/>
+      </column>
+    </table>
+  </tables>
+</schemaMeta>

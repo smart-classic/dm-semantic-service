@@ -132,7 +132,6 @@ function loadFiles() {
         privateKey = fs.readFileSync(__dirname + '/' + config.privateKeyFile, 'utf8');
     } catch (e) {
         console.error(e.message);
-        process.exit();
     }
 
     if (util.setReady(isReady, 'loadFiles')) {

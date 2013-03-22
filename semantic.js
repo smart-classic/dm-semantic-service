@@ -2,7 +2,7 @@
 
 // SMART semantic services
 // File: semantic.js
-var version = '20130316';
+var version = '20130320';
 
 // Required modules
 var restify = require('restify');
@@ -54,6 +54,7 @@ process.on('SIGINT', function () {
     var msg = 'Stopped: ' + d.toFormat('YYYYMMDD-HH24:MI:SS');
     logInst.info(msg);
     console.log(msg);
+    process.exit();
 })
 
 // Keep track of which service modules are ready

@@ -1,6 +1,6 @@
 // SMART semantic services utilities
 // File: utility.js
-// Ver: 20130304
+// Ver: 20130320
 
 // Required modules
 require('date-utils');
@@ -37,20 +37,20 @@ var documentTemplate = Handlebars.compile(fs.readFileSync(__dirname + '/semantic
 exports.dbQuery = function (connString, request, response, query, paramArray, resultFn) {
     pg.connect(connString, function (err, client) {
         if (err != null) {
-            var errStr = 'Connection Error: ' + err;
+            var errStr = 'Connection Error: ' + err.message;
             if (request != null) {
                 request.log.error(errStr);
-                response.send(errStr);
+                exports.sendText(request, response, 400, errStr);
             } else {
                 console.log(errStr);
             }
         } else {
             client.query(query, paramArray, function (err, result) {
                 if (err != null) {
-                    var errStr = 'Query Error: ' + err;
+                    var errStr = 'Query Error: ' + err.message;
                     if (request != null) {
                         request.log.error(errStr);
-                        response.send(errStr);
+                        exports.sendText(request, response, 400, errStr);
                     } else {
                         console.log(errStr);
                     }
@@ -115,14 +115,14 @@ exports.setReady = function (isReady, name) {
 // 'struct' is a string or structured data object (hash).
 // 'mapArray' is an array of objects, each containing a 'from' and 'to' member.
 exports.remap = function (struct, mapArray) {
-    var result = (this.typeOf(struct) == 'String') ? struct : JSON.stringify(struct);
+    var result = (exports.typeOf(struct) == 'String') ? struct : JSON.stringify(struct);
     for (var i = 0; i < mapArray.length; i++) {
         var map = mapArray[i];
         var regExp = new RegExp(map.from, 'g');
         result = result.replace(regExp, map.to);
     }
 
-    return (this.typeOf(struct) == 'String') ? result : JSON.parse(result);
+    return (exports.typeOf(struct) == 'String') ? result : JSON.parse(result);
 };
 
 // Create group structure

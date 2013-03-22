@@ -2,7 +2,7 @@
 -- SMART Disease Diversity Schema (org_smartplatforms_semantic_diverse)
 -- NOTE: Execute ident-schema.sql FIRST!
 --
-\set Version 'diverse-20130226'
+\set Version 'diverse-20130320'
 SET client_encoding = 'UTF-8';
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE entity_types
 
 -- POPULATE
 INSERT INTO entity_types (entity_type_name, entity_type_order_base) VALUES
-     ('seed', 5001), ('community', 4001), ('organization', 3001), ('location', 2001), ('group', 1001), ('user', 1);
+     ('seed', 5000), ('community', 4000), ('organization', 3000), ('location', 2000), ('group', 1000), ('user', 0);
 
 --
 -- Section Orders
@@ -129,19 +129,19 @@ CREATE TABLE section_orders
 -- TODO: This will be wrong if sections or specialties change!!! Replace later with SELECT and a sequence (for order_val)
 INSERT INTO section_orders (sec_id, entity_type_id, entity_id, spec_id, num_cols, sec_col, order_val, hide) VALUES
         -- Column 1
-        (2, 1, 0, 1, 3, 1, 1, false),  -- Problems
-        (7, 1, 0, 1, 3, 1, 2, false),  -- Vitals
-        (9, 1, 0, 1, 3, 1, 3, false),  -- Other Info
+        (2, 1, 0, 1, 3, 1, 5001, false),  -- Problems
+        (7, 1, 0, 1, 3, 1, 5002, false),  -- Vitals
+        (9, 1, 0, 1, 3, 1, 5003, false),  -- Other Info
         -- Column 2
-        (1, 1, 0, 1, 3, 2, 1, false),  -- Meds
-        (3, 1, 0, 1, 3, 2, 2, false),  -- Allergies
+        (1, 1, 0, 1, 3, 2, 5001, false),  -- Meds
+        (3, 1, 0, 1, 3, 2, 5002, false),  -- Allergies
         -- Column 3
-        (10, 1, 0, 1, 3, 3, 1, false), -- Graphs
-        (4, 1, 0, 1, 3, 3, 2, false),  -- Tests
+        (10, 1, 0, 1, 3, 3, 5001, false), -- Graphs
+        (4, 1, 0, 1, 3, 3, 5002, false),  -- Tests
         -- Hidden
-        (5, 1, 0, 1, 3, 3, 3, true),   -- Exams
-        (6, 1, 0, 1, 3, 3, 4, true),   -- Notes
-        (8, 1, 0, 1, 3, 3, 5, true);   -- Immunizations
+        (5, 1, 0, 1, 3, 3, 5003, true),   -- Exams
+        (6, 1, 0, 1, 3, 3, 5004, true),   -- Notes
+        (8, 1, 0, 1, 3, 3, 5005, true);   -- Immunizations
 
 --
 -- Panel Orders

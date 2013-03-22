@@ -2,7 +2,7 @@
 
 // SMART diversity web service
 // File: diverse.js
-var version = '20130310';
+var version = '20130320';
 
 // Required modules
 var EventEmitter = require('events').EventEmitter;
@@ -300,8 +300,21 @@ module.exports.getSectionOrderset = function (req, res, next) {
         util.dbQuery(connString, req, res, q, [req.params.accountId, req.params.specId],
             function (result) {
                 if (result.rowCount > 0) {
-                    // For each secId, find the 'numCols', 'column', 'order' and 'hide' for the highest etId
-                    var secIdGroups = util.groupBy(result.rows, function (row) { return row.secId; });
+                    // Find the highest etId & associated numCols
+                    var etIdMax = 0;
+                    var numCols = 0;
+                    result.rows.forEach(function (row) {
+                        if (row.etId > etIdMax) {
+                            etIdMax = row.etId;
+                            numCols = row.numCols;
+                        }
+                    })
+
+                    // Retain only rows with number of columns == numCols
+                    var matchRows = result.rows.filter(function (row) { return row.numCols == numCols; });
+
+                    // For each secId, find the row with the highest etId
+                    var secIdGroups = util.groupBy(matchRows, function (row) { return row.secId; });
                     var finalSections = [];
                     // Search each secId group
                     for (var secId in secIdGroups) {

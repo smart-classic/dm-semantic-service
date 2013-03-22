@@ -1,0 +1,20 @@
+{
+   "name": "semantic",
+   "version": "0.3.0",
+   "author": "cingulata, inc.",
+   "description": "SMART semantic services",
+   "dependencies": {
+      "bunyan": ">=0.10.0",
+      "date-utils": "1.2.12",
+      "handlebars": "1.0.7",
+      "optimist": "0.3.5",
+      "pg": "0.8.7",
+      "restify": "1.4.4",
+      "time": "0.8.3",
+      "xml-crypto": "0.0.8"
+   },
+   "license": "Apache 2.0",
+   "engines": {
+      "node": ">=0.8"
+   }
+}

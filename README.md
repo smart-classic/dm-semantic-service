@@ -13,8 +13,9 @@ Installation for Ubuntu 12.04
 2. Install PostgreSQL:
 
         $ sudo apt-get install postgresql
+	$ sudo apt-get install libpq-dev
 
-3. Add the 'smart' user
+3. Add the 'smart' user:
 
         $ sudo su postgres
         $ createuser --superuser smart
@@ -29,7 +30,7 @@ Installation for Ubuntu 12.04
             local	all	all	xxx
         to
             local	all	all	md5
-        save
+        then save
 
 5. Restart PostgreSQL:
 
@@ -43,23 +44,20 @@ Installation for Ubuntu 12.04
 
         $ sudo add-apt-repository ppa:chris-lea/node.js
         $ sudo apt-get update
+	$ sudo apt-get instal g++
         $ sudo apt-get install nodejs
 
-8. Determine where you would like to place the project files:
+8. Pick where you would like to place the project files:
 
         $ cd /project/files/location
 
-9. Clone the project files:
+9. Clone the project files to that location:
 
         $ git clone https://bitbucket.org/cingulata/semantic.git
 
-10. Install the production ("xxx" = "prod") or staging ("xxx" = "stage") environment:
+10. Install the production, staging, or development environment ("xxx" = "prod"|"stage"|"dev"):
 
         $ cd semantic
         $ sudo ./install.sh xxx
 
-11. Start the production ("xxx" = "semantic") or staging ("xxx" = "semantic-stage") services:
-
-        $ sudo start xxx
-
-12. Test production by browsing to http://localhost or staging by browsing to http://localhost:8000
+11. Test production by browsing to http://localhost or staging by browsing to http://localhost:8000

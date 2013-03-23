@@ -1,3 +1,6 @@
+BEGIN;
+SET LOCAL SYNCHRONOUS_COMMIT TO OFF;
+
 INSERT INTO panels (panel_name, sec_id, graphable, created_by) VALUES ('Respiratory', 4, false, 0);
 INSERT INTO panels (panel_name, sec_id, graphable, created_by) VALUES ('Hematology', 4, false, 0);
 INSERT INTO panels (panel_name, sec_id, graphable, created_by) VALUES ('Glucose', 4, false, 0);
@@ -832,3 +835,5 @@ INSERT INTO test_orders (panel_id, tp_id, entity_type_id, entity_id, spec_id, or
 INSERT INTO test_orders (panel_id, tp_id, entity_type_id, entity_id, spec_id, order_val, hide) SELECT panels.panel_id, tp_id, entity_type_id, 0, specialties.spec_id, 5001, false FROM panels, tests_problems, entity_types, specialties, facility_types WHERE panels.panel_name = 'Liver' AND tests_problems.loinc_num = '6768-6' AND tests_problems.snomed_cid = '271737000' AND tests_problems.panel_id = panels.panel_id AND tests_problems.spec_id = specialties.spec_id AND tests_problems.fac_type_id = facility_types.fac_type_id AND entity_types.entity_type_name = 'seed' AND specialties.spec_name = 'NONE' AND facility_types.fac_type_name = 'UNDEFINED';
 INSERT INTO test_orders (panel_id, tp_id, entity_type_id, entity_id, spec_id, order_val, hide) SELECT panels.panel_id, tp_id, entity_type_id, 0, specialties.spec_id, 5002, false FROM panels, tests_problems, entity_types, specialties, facility_types WHERE panels.panel_name = 'Liver' AND tests_problems.loinc_num = '1742-6' AND tests_problems.snomed_cid = '271737000' AND tests_problems.panel_id = panels.panel_id AND tests_problems.spec_id = specialties.spec_id AND tests_problems.fac_type_id = facility_types.fac_type_id AND entity_types.entity_type_name = 'seed' AND specialties.spec_name = 'NONE' AND facility_types.fac_type_name = 'UNDEFINED';
 INSERT INTO test_orders (panel_id, tp_id, entity_type_id, entity_id, spec_id, order_val, hide) SELECT panels.panel_id, tp_id, entity_type_id, 0, specialties.spec_id, 5003, false FROM panels, tests_problems, entity_types, specialties, facility_types WHERE panels.panel_name = 'Liver' AND tests_problems.loinc_num = '1920-8' AND tests_problems.snomed_cid = '271737000' AND tests_problems.panel_id = panels.panel_id AND tests_problems.spec_id = specialties.spec_id AND tests_problems.fac_type_id = facility_types.fac_type_id AND entity_types.entity_type_name = 'seed' AND specialties.spec_name = 'NONE' AND facility_types.fac_type_name = 'UNDEFINED';
+
+COMMIT;

@@ -1,14 +1,14 @@
 # Create/setup the "problems_meds" semantic services postgres databases
-# v.20130304
+# v.20130322
 
 # Check arguments
-if [[ "$1" != "prod" && "$1" != "stage" && "$1" != "dev" ]]; then
+if [ "$1" != "prod" -a "$1" != "stage" -a "$1" != "dev" ]; then
     echo "Usage: $0 {prod|stage|dev}"
     exit 1
 fi
 
 # Build database name
-if [ "$1" == "prod" ]; then
+if [ "$1" = "prod" ]; then
     DB=org_smartplatforms_semantic_diverse
 else
     DB=org_smartplatforms_semantic_diverse_$1

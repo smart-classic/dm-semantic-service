@@ -1,8 +1,8 @@
 # Install semantic services
-# v.20130321
+# v.20130322
 
 # Check arguments
-if [[ "$1" != "prod" && "$1" != "stage" && "$1" != "dev" ]]; then
+if [ "$1" != "prod" -a "$1" != "stage" -a "$1" != "dev" ]; then
     echo "Usage: $0 {prod|stage|dev}"
     exit 1
 fi
@@ -10,6 +10,12 @@ fi
 # Install node.js modules
 echo "Installing node.js modules..."
 sudo npm install
+
+# Link node.js modules to "services" location
+sudo mkdir -p /usr/smart
+if [ ! -e /usr/smart/node_modules ]; then
+    sudo ln -s $(pwd)/node_modules /usr/smart
+fi
 
 # Patch restify
 mv node_modules/restify/lib/response.js node_modules/restify/lib/response.js.bak
@@ -41,10 +47,20 @@ fi
 # Start services
 if [ "$1" == "prod" ]; then
     echo "Starting production services."
-    sudo start semantic
+    STATUS=$(sudo status semantic | grep 'process')
+    if [ -z "$STATUS" ]; then
+        sudo start semantic
+    else
+	sudo restart semantic
+   fi
 elif [ "$1" == "stage" ]; then
     echo "Starting staging services."
-    sudo start semantic-stage
+    STATUS=$(sudo status semantic-stage | grep 'process')
+    if [ -z "$STATUS" ]; then
+	sudo start semantic-stage
+    else
+	sudo restart semantic-stage
+    fi
 else
     echo "Installation complete."
 fi

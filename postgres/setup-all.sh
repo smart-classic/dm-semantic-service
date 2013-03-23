@@ -1,8 +1,8 @@
 # Create/setup all of the semantic services postgres databases
-# v.20130221
+# v.20130322
 
 # Check arguments
-if [[ "$1" != "prod" && "$1" != "stage" && "$1" != "dev" ]]; then
+if [ "$1" != "prod" -a "$1" != "stage" -a "$1" != "dev" ]; then
     echo "Usage: $0 {prod|stage|dev}"
     exit 1
 fi

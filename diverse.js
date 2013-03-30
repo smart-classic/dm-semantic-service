@@ -2,7 +2,7 @@
 
 // SMART diversity web service
 // File: diverse.js
-var version = '20130320';
+var version = '20130329';
 
 // Required modules
 var EventEmitter = require('events').EventEmitter;
@@ -345,7 +345,8 @@ module.exports.createSectionOrderset = function (req, res, next) {
                          {name: 'numCols', desc: 'the number of columns in the display'},
                          {name: 'entityType', desc: 'the type of entity (user, group, location, organization, community, seed) setting the sequence'},
                          {name: 'entityId', desc: 'the id of the entity (use 0 for community, seed)'},
-                         {name: 'specId', desc: 'the specialty id'}],
+                         {name: 'specId', desc: 'the specialty id'},
+                         {name: 'validateEntityId', desc: '<i>true</i> to validate entityId, <i>false</i> (or missing) to not validate'}],
                 return: "'OK'",
                 error:  '400 if unsuccessful (invalid input values).'};
     } else {
@@ -356,40 +357,50 @@ module.exports.createSectionOrderset = function (req, res, next) {
             return next();
         }
 
-        // Delete any prior orderset (TODO: This should be in a transaction)
-        var q = 'DELETE FROM section_orders WHERE entity_type_id = $1 AND entity_id = $2 AND spec_id = $3';
+        // Check for valid entityId
+        checkEntityId(req.params.validateEntityId == 'true', entityTypeInfo.id, req.params.entityId,
+            function (isValid) {
+                if (!isValid) {
+                    util.sendText(req, res, 400, 'Invalid entityId: ' + req.params.entityId);
+                    return next();
+                } else {
+                    // Valid -- delete any prior orderset (TODO: This should be in a transaction)
+                    var q = 'DELETE FROM section_orders WHERE entity_type_id = $1 AND entity_id = $2 AND spec_id = $3';
 
-        util.dbQuery(connString, req, res, q, [entityTypeInfo.id, req.params.entityId, req.params.specId],
-            function (result) {
-                // Now, create the new orderset
-                var sections = [];
-                try {
-                    sections = JSON.parse(req.params.sections);
-                } catch (e) {
-                    util.sendText(req, res, 400, 'Invalid JSON: ' + req.params.sections);
-                    return;
+                    util.dbQuery(connString, req, res, q, [entityTypeInfo.id, req.params.entityId, req.params.specId],
+                        function (result) {
+                            // Now, create the new orderset
+                            var sections = [];
+                            try {
+                                sections = JSON.parse(req.params.sections);
+                            } catch (e) {
+                                util.sendText(req, res, 400, 'Invalid JSON: ' + req.params.sections);
+                                return;
+                            }
+
+                            var valSet = [];
+                            sections.forEach(function (thisSection) {
+                                var orderVal = entityTypeInfo.orderBase + thisSection.order;
+                                valSet.push('(' + thisSection.id + ',' + entityTypeInfo.id + ',' + req.params.entityId + ',' +
+                                    req.params.specId + ',' + req.params.numCols + ',' + thisSection.column + ',' + orderVal + ',' + thisSection.hide + ')');
+                            });
+
+                            var q = 'INSERT INTO section_orders (sec_id, entity_type_id, entity_id, spec_id, num_cols, sec_col, order_val, hide) VALUES ' + valSet.join(',');
+
+                            util.dbQuery(connString, req, res, q, null,
+                                function (result) {
+                                    if (result.rowCount > 0) {
+                                        util.sendText(req, res, 200, 'OK');
+                                    } else {
+                                        util.sendText(req, res, 400, 'Invalid input: ' + JSON.stringify(req.params));
+                                    }
+                                });
+                        });
+
+                    return next();
                 }
-
-                var valSet = [];
-                sections.forEach(function (thisSection) {
-                    var orderVal = entityTypeInfo.orderBase + thisSection.order;
-                    valSet.push('(' + thisSection.id + ',' + entityTypeInfo.id + ',' + req.params.entityId + ',' +
-                        req.params.specId + ',' + req.params.numCols + ',' + thisSection.column + ',' + orderVal + ',' + thisSection.hide + ')');
-                });
-
-                var q = 'INSERT INTO section_orders (sec_id, entity_type_id, entity_id, spec_id, num_cols, sec_col, order_val, hide) VALUES ' + valSet.join(',');
-
-                util.dbQuery(connString, req, res, q, null,
-                    function (result) {
-                        if (result.rowCount > 0) {
-                            util.sendText(req, res, 200, 'OK');
-                        } else {
-                            util.sendText(req, res, 400, 'Invalid input: ' + JSON.stringify(req.params));
-                        }
-                    });
-            });
-
-        return next();
+            }
+        )
     }
 };
 
@@ -716,7 +727,8 @@ module.exports.createPanelOrderset = function (req, res, next) {
                          {name: 'secId', desc: 'the id of the containing section'},
                          {name: 'entityType', desc: 'the type of entity (user, group, location, organization, community, seed) setting the sequence'},
                          {name: 'entityId', desc: 'the id of the entity (use 0 for community, seed)'},
-                         {name: 'specId', desc: 'the specialty id'}],
+                         {name: 'specId', desc: 'the specialty id'},
+                         {name: 'validateEntityId', desc: '<i>true</i> to validate entityId, <i>false</i> (or missing) to not validate'}],
                 return: "'OK'",
                 error:  '400 if unsuccessful (invalid input values).'};
     } else {
@@ -727,40 +739,50 @@ module.exports.createPanelOrderset = function (req, res, next) {
             return next();
         }
 
-        // Delete any prior orderset (TODO: This should be in a transaction)
-        var q = 'DELETE FROM panel_orders WHERE sec_id = $1 AND entity_type_id = $2 AND entity_id = $3 AND spec_id = $4';
+        // Check for valid entityId
+        checkEntityId(req.params.validateEntityId == 'true', entityTypeInfo.id, req.params.entityId,
+            function (isValid) {
+                if (!isValid) {
+                    util.sendText(req, res, 400, 'Invalid entityId: ' + req.params.entityId);
+                    return next();
+                } else {
+                    // Valid -- delete any prior orderset (TODO: This should be in a transaction)
+                    var q = 'DELETE FROM panel_orders WHERE sec_id = $1 AND entity_type_id = $2 AND entity_id = $3 AND spec_id = $4';
 
-        util.dbQuery(connString, req, res, q, [req.params.secId, entityTypeInfo.id, req.params.entityId, req.params.specId],
-            function (result) {
-                // Now, create the new orderset
-                var panels = [];
-                try {
-                    panels = JSON.parse(req.params.panels);
-                } catch (e) {
-                    util.sendText(req, res, 400, 'Invalid JSON: ' + req.params.panels);
-                    return;
+                    util.dbQuery(connString, req, res, q, [req.params.secId, entityTypeInfo.id, req.params.entityId, req.params.specId],
+                        function (result) {
+                            // Now, create the new orderset
+                            var panels = [];
+                            try {
+                                panels = JSON.parse(req.params.panels);
+                            } catch (e) {
+                                util.sendText(req, res, 400, 'Invalid JSON: ' + req.params.panels);
+                                return;
+                            }
+
+                            var valSet = [];
+                            panels.forEach(function (thisPanel, panelNum) {
+                                var orderVal = entityTypeInfo.orderBase + panelNum;
+                                valSet.push('(' + req.params.secId + ',' + thisPanel.id + ',' + entityTypeInfo.id + ',' +
+                                    req.params.entityId + ',' + req.params.specId + ',' + orderVal + ',' + thisPanel.hide + ')');
+                            });
+
+                            var q = 'INSERT INTO panel_orders (sec_id, panel_id, entity_type_id, entity_id, spec_id, order_val, hide) VALUES ' + valSet.join(',');
+
+                            util.dbQuery(connString, req, res, q, null,
+                                function (result) {
+                                    if (result.rowCount > 0) {
+                                        util.sendText(req, res, 200, 'OK');
+                                    } else {
+                                        util.sendText(req, res, 400, 'Invalid input: ' + JSON.stringify(req.params));
+                                    }
+                                });
+                        });
+
+                    return next();
                 }
-
-                var valSet = [];
-                panels.forEach(function (thisPanel, panelNum) {
-                    var orderVal = entityTypeInfo.orderBase + panelNum;
-                    valSet.push('(' + req.params.secId + ',' + thisPanel.id + ',' + entityTypeInfo.id + ',' +
-                        req.params.entityId + ',' + req.params.specId + ',' + orderVal + ',' + thisPanel.hide + ')');
-                });
-
-                var q = 'INSERT INTO panel_orders (sec_id, panel_id, entity_type_id, entity_id, spec_id, order_val, hide) VALUES ' + valSet.join(',');
-
-                util.dbQuery(connString, req, res, q, null,
-                    function (result) {
-                        if (result.rowCount > 0) {
-                            util.sendText(req, res, 200, 'OK');
-                        } else {
-                            util.sendText(req, res, 400, 'Invalid input: ' + JSON.stringify(req.params));
-                        }
-                    });
-            });
-
-        return next();
+            }
+        )
     }
 };
 
@@ -1262,7 +1284,8 @@ module.exports.createTestOrderset = function (req, res, next) {
                          {name: 'panelId', desc: 'the id of the containing panel'},
                          {name: 'entityType', desc: 'the type of entity (user, group, location, organization, community, seed) setting the sequence'},
                          {name: 'entityId', desc: 'the id of the entity (use 0 for community, seed)'},
-                         {name: 'specId', desc: 'the specialty id'}],
+                         {name: 'specId', desc: 'the specialty id'},
+                         {name: 'validateEntityId', desc: '<i>true</i> to validate entityId, <i>false</i> (or missing) to not validate'}],
                 return: "'OK'",
                 error:  '400 if unsuccessful (invalid input values).'};
     } else {
@@ -1273,40 +1296,50 @@ module.exports.createTestOrderset = function (req, res, next) {
             return next();
         }
 
-        // First, delete any prior orderset (TODO: This should be in a transaction)
-        var q = 'DELETE FROM test_orders WHERE panel_id = $1 AND entity_type_id = $2 AND entity_id = $3 AND spec_id = $4';
+        // Check for valid entityId
+        checkEntityId(req.params.validateEntityId == 'true', entityTypeInfo.id, req.params.entityId,
+            function (isValid) {
+                if (!isValid) {
+                    util.sendText(req, res, 400, 'Invalid entityId: ' + req.params.entityId);
+                    return next();
+                } else {
+                    // Valid -- delete any prior orderset (TODO: This should be in a transaction)
+                    var q = 'DELETE FROM test_orders WHERE panel_id = $1 AND entity_type_id = $2 AND entity_id = $3 AND spec_id = $4';
 
-        util.dbQuery(connString, req, res, q, [req.params.panelId, entityTypeInfo.id, req.params.entityId, req.params.specId],
-            function (result) {
-                // Now, create the new orderset
-                var tests = [];
-                try {
-                    tests = JSON.parse(req.params.tests);
-                } catch (e) {
-                    util.sendText(req, res, 400, 'Invalid JSON: ' + req.params.tests);
-                    return;
+                    util.dbQuery(connString, req, res, q, [req.params.panelId, entityTypeInfo.id, req.params.entityId, req.params.specId],
+                        function (result) {
+                            // Now, create the new orderset
+                            var tests = [];
+                            try {
+                                tests = JSON.parse(req.params.tests);
+                            } catch (e) {
+                                util.sendText(req, res, 400, 'Invalid JSON: ' + req.params.tests);
+                                return;
+                            }
+
+                            var valSet = [];
+                            tests.forEach(function (thisTest, testNum) {
+                                var orderVal = entityTypeInfo.orderBase + testNum;
+                                valSet.push('(' + req.params.panelId + ',' + thisTest.assocId + ',' + entityTypeInfo.id + ',' +
+                                    req.params.entityId + ',' + req.params.specId + ',' + orderVal + ',' + thisTest.hide + ')');
+                            });
+
+                            var q = 'INSERT INTO test_orders (panel_id, tp_id, entity_type_id, entity_id, spec_id, order_val, hide) VALUES ' + valSet.join(',');
+
+                            util.dbQuery(connString, req, res, q, null,
+                                function (result) {
+                                    if (result.rowCount > 0) {
+                                        util.sendText(req, res, 200, 'OK');
+                                    } else {
+                                        util.sendText(req, res, 400, 'Invalid input: ' + JSON.stringify(req.params));
+                                    }
+                                });
+                        });
+
+                    return next();
                 }
-
-                var valSet = [];
-                tests.forEach(function (thisTest, testNum) {
-                    var orderVal = entityTypeInfo.orderBase + testNum;
-                    valSet.push('(' + req.params.panelId + ',' + thisTest.assocId + ',' + entityTypeInfo.id + ',' +
-                        req.params.entityId + ',' + req.params.specId + ',' + orderVal + ',' + thisTest.hide + ')');
-                });
-
-                var q = 'INSERT INTO test_orders (panel_id, tp_id, entity_type_id, entity_id, spec_id, order_val, hide) VALUES ' + valSet.join(',');
-
-                util.dbQuery(connString, req, res, q, null,
-                    function (result) {
-                        if (result.rowCount > 0) {
-                            util.sendText(req, res, 200, 'OK');
-                        } else {
-                            util.sendText(req, res, 400, 'Invalid input: ' + JSON.stringify(req.params));
-                        }
-                    });
-            });
-
-        return next();
+            }
+        )
     }
 };
 
@@ -1423,6 +1456,45 @@ function evalTest(answer, panelName, test, now) {
 }
 
 //---------------------------------------------------------------------------------
+
+// Verify an entityId.
+//    Calls resultFn(true) if
+//            validate == false
+//            validate == true AND entityTypeId == 1 (Seed)
+//            validate == true AND entityTypeId == 2 (Community)
+//            validate == true AND entityId exists (for entityTypeId >= 3)
+//    Calls resultFn(false) if
+//            validate == true AND entityId doesn't exist (for entityTypeId >= 3).
+function checkEntityId (validate, entityTypeId, entityId, resultFn) {
+    if (!validate) {
+        // Directly call resultFn
+        resultFn(true);
+    } else {
+        // Check entityId
+        var q;
+        switch (entityTypeId) {
+            case 1,2:  // Seed, Community
+                resultFn(true);
+                return;
+            case 3:    // Organization
+                q = 'SELECT * FROM organizations WHERE org_id = $1';
+                break;
+            case 4:    // Location
+                q = 'SELECT * FROM locations WHERE loc_id = $1';
+                break;
+            case 5:    // Group
+                q = 'SELECT * FROM groups WHERE group_id = $1';
+                break;
+            case 6:    // User
+                q = 'SELECT * FROM users WHERE account_id = $1';
+                break;
+        }
+        util.dbQuery(connString, null, null, q, [entityId],
+            function (result) {
+               resultFn(result.rowCount > 0);
+            })
+    }
+}
 
 // Initialize the set of sections
 function setupSections () {

@@ -105,7 +105,7 @@ CREATE TABLE entity_types
 	entity_type_order_base  INTEGER NOT NULL
 );
 
--- POPULATE
+-- POPULATE (ORDER DETERMINES PRIORITY)
 INSERT INTO entity_types (entity_type_name, entity_type_order_base) VALUES
      ('seed', 5000), ('community', 4000), ('organization', 3000), ('location', 2000), ('group', 1000), ('user', 0);
 

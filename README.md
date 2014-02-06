@@ -9,7 +9,7 @@ Installation for Ubuntu 12.04
 1. Update apt-get manifests:
 
         $ sudo apt-get update
-| |
+ 
 
 2. Install PostgreSQL:
 

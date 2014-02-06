@@ -70,5 +70,5 @@ Installation for Ubuntu 12.04
         $ sudo ./install.sh xxx
 
 
-11. Test production by browsing to http://localhost or staging by browsing to http://localhost:8000
+11. Test production by browsing to http://localhost or staging by browsing to http://localhost:8000 -- the semantic services are self-documenting.
 

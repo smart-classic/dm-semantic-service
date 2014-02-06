@@ -13,7 +13,7 @@ Installation for Ubuntu 12.04
 2. Install PostgreSQL:
 
         $ sudo apt-get install postgresql
-	$ sudo apt-get install libpq-dev
+        $ sudo apt-get install libpq-dev
 
 3. Add the 'smart' user:
 
@@ -44,7 +44,7 @@ Installation for Ubuntu 12.04
 
         $ sudo add-apt-repository ppa:chris-lea/node.js
         $ sudo apt-get update
-	$ sudo apt-get instal g++
+        $ sudo apt-get instal g++
         $ sudo apt-get install nodejs
 
 8. Pick where you would like to place the project files:

@@ -50,7 +50,7 @@ Installation for Ubuntu 12.04
 
         $ sudo add-apt-repository ppa:chris-lea/node.js
         $ sudo apt-get update
-        $ sudo apt-get instal g++
+        $ sudo apt-get install g++
         $ sudo apt-get install nodejs
 
 
@@ -61,7 +61,7 @@ Installation for Ubuntu 12.04
 
 9. Clone the project files to that location:
 
-        $ git clone https://bitbucket.org/cingulata/semantic.git
+        $ git clone https://github.com/chb/dm-semantic.git
 
 
 10. Install the production, staging, or development environment ("xxx" = "prod"|"stage"|"dev"):

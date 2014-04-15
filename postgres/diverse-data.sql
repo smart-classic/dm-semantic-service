@@ -66,12 +66,6 @@ INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('41653-7
 INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('32016-8', 'Glucose (BldC)', 0);
 INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('4548-4', 'Hb A1c', 0);
 INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('17856-6', 'Hb A1c', 0);
-INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('2345-7', 'Glucose (S/P)', 0);
-INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('2339-0', 'Glucose (Bld)', 0);
-INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('41653-7', 'Glucose (BldC glucometer)', 0);
-INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('32016-8', 'Glucose (BldC)', 0);
-INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('4548-4', 'Hb A1c', 0);
-INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('17856-6', 'Hb A1c', 0);
 INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('17861-6', 'Calcium (S/P)', 0);
 INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('49765-1', 'Calcium (Bld)', 0);
 INSERT INTO loinc_extra (loinc_num, preferred_name, created_by) VALUES ('2885-2', 'Protein (S/P)', 0);
@@ -275,12 +269,6 @@ INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val,
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('32016-8', 'M', 0.0, 999.9, '60', '200', 'mg/dL');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('4548-4', 'M', 0.0, 999.9, '3.9', '6.2', '%');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('17856-6', 'M', 0.0, 999.9, '3.9', '6.2', '%');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2345-7', 'M', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2339-0', 'M', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('41653-7', 'M', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('32016-8', 'M', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('4548-4', 'M', 0.0, 999.9, '3.9', '6.2', '%');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('17856-6', 'M', 0.0, 999.9, '3.9', '6.2', '%');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('17861-6', 'M', 0.0, 999.9, '8.7', '10.7', 'mg/dL');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('49765-1', 'M', 0.0, 999.9, '', '', 'mg/dL');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2885-2', 'M', 0.0, 999.9, '6', '8.2', 'g/dL');
@@ -478,12 +466,6 @@ INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val,
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2501-5', 'F', 0.0, 999.9, '', '', 'ug/dL');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2502-3', 'F', 0.0, 999.9, '', '', '%');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2276-4', 'F', 0.0, 999.9, '', '', 'ng/mL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2345-7', 'F', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2339-0', 'F', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('41653-7', 'F', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('32016-8', 'F', 0.0, 999.9, '60', '200', 'mg/dL');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('4548-4', 'F', 0.0, 999.9, '3.9', '6.2', '%');
-INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('17856-6', 'F', 0.0, 999.9, '3.9', '6.2', '%');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2345-7', 'F', 0.0, 999.9, '60', '200', 'mg/dL');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('2339-0', 'F', 0.0, 999.9, '60', '200', 'mg/dL');
 INSERT INTO test_ranges (loinc_num, gender, min_age, max_age, low_val, high_val, units) VALUES ('41653-7', 'F', 0.0, 999.9, '60', '200', 'mg/dL');

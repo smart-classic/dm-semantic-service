@@ -177,7 +177,7 @@ exports.documentRestifyRoutes = function (server) {
     for (var i=0; i < server.routes.length; i++) {
         try {
             // Get documentation from route's function (if defined)
-            var doc = server.routes[i].chain[1]();
+            var doc = server.routes[i].chain[2]();
 
             // Add route info
             var route = server.routes[i]._name;
